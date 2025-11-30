@@ -39,7 +39,7 @@ function App() {
       const filtered = products.filter(p => {
         try {
           return eval(`p.name.toLowerCase().includes('${searchQuery}'.toLowerCase())`);
-        } catch(e) {
+        } catch (e) {
           return false;
         }
       });
@@ -265,9 +265,6 @@ function App() {
             <p>
               Pas de compte ? <button onClick={() => setView('register')}>S'inscrire</button>
             </p>
-            <p style={{fontSize: '0.8em', color: '#666'}}>
-              Test: admin / admin123
-            </p>
           </div>
         )}
 
@@ -307,16 +304,16 @@ function App() {
         {view === 'profile' && user && (
           <div className="profile-view">
             <h2>Mon Profil</h2>
-            <pre style={{textAlign: 'left', background: '#f5f5f5', padding: '20px'}}>
+            <pre style={{ textAlign: 'left', background: '#f5f5f5', padding: '20px' }}>
               {JSON.stringify(user, null, 2)}
             </pre>
 
-            <div style={{marginTop: '20px'}}>
+            <div style={{ marginTop: '20px' }}>
               <input
                 id="userId"
                 type="number"
                 placeholder="ID utilisateur"
-                style={{marginRight: '10px'}}
+                style={{ marginRight: '10px' }}
               />
               <button onClick={async () => {
                 const userId = document.getElementById('userId').value;
@@ -332,27 +329,27 @@ function App() {
 
         {view === 'product-details' && selectedProduct && (
           <div className="product-details-view">
-            <button onClick={() => setView('products')} style={{marginBottom: '20px'}}>
+            <button onClick={() => setView('products')} style={{ marginBottom: '20px' }}>
               ← Retour aux produits
             </button>
 
             <div className="product-details-card">
               <h2 dangerouslySetInnerHTML={{ __html: selectedProduct.name }}></h2>
-              <p className="price" style={{fontSize: '2em', color: '#007bff', margin: '20px 0'}}>
+              <p className="price" style={{ fontSize: '2em', color: '#007bff', margin: '20px 0' }}>
                 {selectedProduct.price}€
               </p>
               <p><strong>Catégorie:</strong> {selectedProduct.category}</p>
               <p><strong>Stock disponible:</strong> {selectedProduct.stock}</p>
               <button
                 onClick={() => addToCart(selectedProduct)}
-                style={{marginTop: '20px', padding: '15px 30px', fontSize: '18px'}}
+                style={{ marginTop: '20px', padding: '15px 30px', fontSize: '18px' }}
               >
                 Ajouter au panier
               </button>
             </div>
 
-            <div className="reviews-section" style={{marginTop: '40px'}}>
-              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <div className="reviews-section" style={{ marginTop: '40px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h3>Avis clients ({reviews.length})</h3>
                 <button onClick={() => handleAddReview(selectedProduct.id)}>
                   ✍️ Laisser un avis
@@ -360,21 +357,21 @@ function App() {
               </div>
 
               {reviews.length === 0 ? (
-                <p style={{textAlign: 'center', color: '#666', marginTop: '30px'}}>
+                <p style={{ textAlign: 'center', color: '#666', marginTop: '30px' }}>
                   Aucun avis pour le moment. Soyez le premier à donner votre avis !
                 </p>
               ) : (
                 <div className="reviews-list">
                   {reviews.map((review) => (
                     <div key={review.id} className="review-card">
-                      <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '10px'}}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
                         <div className="rating">
                           {'⭐'.repeat(review.rating)}
-                          <span style={{color: '#999', marginLeft: '10px'}}>
+                          <span style={{ color: '#999', marginLeft: '10px' }}>
                             {review.rating}/5
                           </span>
                         </div>
-                        <span style={{color: '#999', fontSize: '0.9em'}}>
+                        <span style={{ color: '#999', fontSize: '0.9em' }}>
                           {new Date(review.date).toLocaleDateString('fr-FR')}
                         </span>
                       </div>
