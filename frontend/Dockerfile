@@ -1,5 +1,5 @@
 # ---- Étape 1 : Build du frontend ----
-FROM node:16-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -16,7 +16,7 @@ COPY . .
 RUN npm run build
 
 # ---- Étape 2 : Image finale, légère pour servir le build ----
-FROM node:16-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
