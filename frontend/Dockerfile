@@ -1,36 +1,26 @@
-# ---- Étape 1 : Build du frontend ----
-FROM node:20-alpine AS builder
+FROM node:20
 
 WORKDIR /app
 
-# Copier uniquement package.json + lock pour optimiser le cache
+# Copie des fichiers package.json / package-lock.json
 COPY package*.json ./
 
-# Installer les dépendances
+# Installation des dépendances (important pour installer react-scripts)
 RUN npm install --legacy-peer-deps
 
-# Copier le reste du code source
+# Copie du projet complet
 COPY . .
 
-# Build en production
+# Variable d'environnement (à mettre idéalement via .env ou docker run)
+ENV REACT_APP_API_KEY=frontend-api-key-123456
+
+# Build du frontend
 RUN npm run build
 
-# ---- Étape 2 : Image finale, légère pour servir le build ----
-FROM node:20-alpine
-
-WORKDIR /app
-
-# Installer serve uniquement dans l'image finale
+# Installe serve pour héberger l'app buildée
 RUN npm install -g serve
-
-# Copier le build compilé
-COPY --from=builder /app/build ./build
-
-# Variable ENV (⚠ doit être injectée depuis docker-compose ou runtime)
-ENV REACT_APP_API_KEY=""
 
 EXPOSE 3000
 
-# Lancer l'app
+# Lance le serveur sur le dossier build
 CMD ["serve", "-s", "build", "-l", "3000"]
-
