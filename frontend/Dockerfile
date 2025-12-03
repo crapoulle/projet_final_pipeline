@@ -1,9 +1,8 @@
-#!/bin/bash
 FROM node:16
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY frontend/package*.json ./
 RUN npm install
 
 COPY . .
