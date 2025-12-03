@@ -1,15 +1,28 @@
-FROM node:16
+# --- Étape 1 : Build / installation des dépendances ---
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
+# Copier uniquement les fichiers NPM pour installer les dépendances plus vite
+COPY package*.json ./
+RUN npm install --production
+
+# Copier le reste du code
 COPY . .
 
-RUN npm install
+# --- Étape 2 : Image finale, plus légère ---
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copier les fichiers depuis l'étape builder
+COPY --from=builder /app /app
+
+# Variables d'environnement (peuvent être remplacées au runtime)
+ENV NODE_ENV=production
+# ⚠️ NE PAS mettre tes vraies clés ici
+# Elles seront injectées plus tard via docker run ou docker-compose
 
 EXPOSE 5001
-
-ENV NODE_ENV=production
-ENV JWT_SECRET=my-super-secret-jwt-key-12345
-ENV SESSION_SECRET=my-session-secret-key
 
 CMD ["node", "server.js"]
